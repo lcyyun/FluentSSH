@@ -82,6 +82,10 @@
 - 原生窗口控制、原生滚动和 WPF 输入法语义
 - 状态与真实事件对应：连接、隧道和命令状态不使用计时器伪造
 
+## 下载
+
+Windows 便携版：[GitHub Releases](https://github.com/lcyyun/FluentSSH/releases/latest)（自包含单文件，无需安装 .NET）。
+
 ## 构建与运行
 
 环境要求：Windows 10/11 x64，.NET 10 SDK。
