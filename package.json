@@ -1,0 +1,61 @@
+{
+  "name": "fluent-ssh",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "FluentSSH — a modern Fluent UI SSH workspace: hosts, terminal, SFTP, tunnels, commands and security.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:server": "tsx watch server/src/index.ts",
+    "dev:web": "vite --config vite.config.ts",
+    "build": "vite build",
+    "start": "tsx server/src/index.ts",
+    "preview": "vite preview --config vite.config.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm test:backend",
+    "test:backend": "tsx tests/ssh-core.test.ts && tsx tests/sftp-tunnels.test.ts",
+    "test:ui": "node scripts/run-ui-e2e.mjs",
+    "test:all": "pnpm test:backend && pnpm test:ui",
+    "mock-ssh": "tsx tests/fixtures/mock-ssh-server.ts",
+    "mock-lab": "tsx scripts/mock-lab.ts"
+  },
+  "dependencies": {
+    "@fluentui/react-components": "^9.68.0",
+    "@fluentui/react-icons": "^2.0.300",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-search": "^0.15.0",
+    "@xterm/addon-serialize": "^0.13.0",
+    "@xterm/addon-web-links": "^0.11.0",
+    "@xterm/xterm": "^5.5.0",
+    "express": "^4.21.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "ssh2": "^1.16.0",
+    "sshpk": "^1.18.0",
+    "tsx": "^4.19.2",
+    "ws": "^8.18.0",
+    "zod": "^3.24.1",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.13.5",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@types/ssh2": "^1.15.4",
+    "@types/sshpk": "^1.17.4",
+    "@types/ws": "^8.18.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "playwright-core": "^1.50.1",
+    "typescript": "^5.7.3",
+    "vite": "^6.2.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}
