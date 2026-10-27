@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FluentSSH</string>
+    <string name="notification_channel_sessions">SSH 会话</string>
+    <string name="notification_running_title">FluentSSH 正在运行</string>
+    <string name="notification_running_text">%1$d 个 SSH 会话 · %2$d 条隧道</string>
+</resources>

@@ -23,6 +23,25 @@
 
 ---
 
+## Android 版本
+
+同一仓库现在还提供**真正原生的 Android 客户端**（Kotlin + Jetpack Compose + Material 3），不依赖 WebView / Electron / 浏览器内核：
+
+- 代码与说明：[`android/README.md`](android/README.md)
+- 截图：[`android/docs/screenshots/`](android/docs/screenshots)
+- 设计规范：[`mobile-design-system-skill`](https://github.com/Ludi-Herry/mobile-design-system-skill) 16 项移动端门禁逐项落地（[走查文档](android/docs/DESIGN-AUDIT.md)）
+- 可选安装包：`dist/android/FluentSSH-android-v1.0.0.apk`（本地构建产物，`dist/` 默认不纳入 git）
+
+![Android 主机列表](android/docs/screenshots/hosts.png)
+![Android 终端](android/docs/screenshots/terminal.png)
+![Android 隧道](android/docs/screenshots/tunnels.png)
+
+Android 版覆盖主机与分组、多会话终端、SFTP 文件、SSH 隧道、远程命令、密钥、Known Hosts、审计与会话录制，并通过 70/70 JVM 单测与 Android 14 模拟器端到端验证（[验证记录](android/docs/VERIFICATION.md)）。
+
+> 下文“功能”章节描述 Windows 桌面版；Android 功能清单见 [`android/README.md`](android/README.md)。
+
+---
+
 ## 功能
 
 ### 主机与认证

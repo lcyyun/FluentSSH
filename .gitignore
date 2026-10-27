@@ -4,7 +4,7 @@ dist/
 data/
 *.log
 .DS_Store
-screenshots/
+/screenshots/
 tests/.artifacts/
 .env
 
