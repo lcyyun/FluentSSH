@@ -30,7 +30,7 @@
 - 代码与说明：[`android/README.md`](android/README.md)
 - 截图：[`android/docs/screenshots/`](android/docs/screenshots)
 - 设计规范：[`mobile-design-system-skill`](https://github.com/Ludi-Herry/mobile-design-system-skill) 16 项移动端门禁逐项落地（[走查文档](android/docs/DESIGN-AUDIT.md)）
-- 可选安装包：`dist/android/FluentSSH-android-v1.0.0.apk`（本地构建产物，`dist/` 默认不纳入 git）
+- 安装包：[FluentSSH-android-v1.0.0.apk](https://github.com/lcyyun/FluentSSH/releases/tag/android-v1.0.0)（Android 8.0+，侧载安装）
 
 ![Android 主机列表](android/docs/screenshots/hosts.png)
 ![Android 终端](android/docs/screenshots/terminal.png)

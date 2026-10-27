@@ -140,7 +140,9 @@ sdk.dir=C\:\\path\\to\\android-sdk
 
 ### 已构建产物
 
-- 可侧载 APK：[`../dist/android/FluentSSH-android-v1.0.0.apk`](../dist/android/FluentSSH-android-v1.0.0.apk)（13.4 MB，minSdk 26 / targetSdk 34）
+- GitHub Release（含 APK）：<https://github.com/lcyyun/FluentSSH/releases/tag/android-v1.0.0>
+- 直接下载：[FluentSSH-android-v1.0.0.apk](https://github.com/lcyyun/FluentSSH/releases/download/android-v1.0.0/FluentSSH-android-v1.0.0.apk)（13.4 MB，minSdk 26 / targetSdk 34）
+- 本地产物：`dist/android/FluentSSH-android-v1.0.0.apk`
 
 ---
 
