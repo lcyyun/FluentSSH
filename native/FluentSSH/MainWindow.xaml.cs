@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -156,7 +157,23 @@ public partial class MainWindow : FluentWindow
     private void UpdateThemeButton()
     {
         ThemeGlyph.Text = ThemeService.IsDark ? "\uE706" : "\uE708";
-        ThemeLabel.Text = ThemeService.IsDark ? "浅色模式" : "深色模式";
+        ThemeButton.ToolTip = ThemeService.IsDark ? "切换到浅色模式" : "切换到深色模式";
+    }
+
+    private void GitHub_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/lcyyun/FluentSSH",
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            System.Windows.MessageBox.Show(ex.Message, "无法打开 GitHub", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+        }
     }
 
     private void Settings_Click(object sender, RoutedEventArgs e) => Navigate("settings");

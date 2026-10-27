@@ -366,4 +366,40 @@
         <Setter Property="FontFamily" Value="Segoe Fluent Icons" />
         <Setter Property="FontSize" Value="14" />
     </Style>
+
+    <Style x:Key="CircleIconButtonStyle" TargetType="Button">
+        <Setter Property="Width" Value="36" />
+        <Setter Property="Height" Value="36" />
+        <Setter Property="Margin" Value="4,0,4,0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource AppTextSecondaryBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+        <Setter Property="BorderThickness" Value="0.5" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Circle" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                            Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="18">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Circle" Property="Background" Value="{DynamicResource AppSurfaceHoverBrush}" />
+                            <Setter TargetName="Circle" Property="BorderBrush" Value="{DynamicResource AppBorderStrongBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Circle" Property="Opacity" Value="0.78" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Circle" Property="Opacity" Value="0.4" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

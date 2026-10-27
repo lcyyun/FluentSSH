@@ -1,5 +1,7 @@
 # FluentSSH Native
 
+> GitHub 仓库：<https://github.com/lcyyun/FluentSSH>
+
 真正原生的 Windows SSH 工作台，使用 **.NET 10 + WPF** 构建。没有浏览器内核，没有 Electron / Tauri / WebView2 外壳；终端、文件管理器、隧道和设置全部是原生桌面界面。
 
 - 原生窗口：WPF `FluentWindow` + Mica 背景 + 系统窗口按钮
