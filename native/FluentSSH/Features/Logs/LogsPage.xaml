@@ -1,0 +1,205 @@
+<UserControl x:Class="FluentSSH.Features.LogsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{DynamicResource AppBackgroundBrush}">
+    <UserControl.Resources>
+        <Style x:Key="LogSegmentStyle" TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="14,6" />
+            <Setter Property="Margin" Value="0,0,2,0" />
+            <Setter Property="Foreground" Value="{DynamicResource AppTextSecondaryBrush}" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Border" Background="Transparent" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource AppSurfaceHoverBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource AppSelectedBrush}" />
+                                <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="28,24,28,24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="日志" Style="{StaticResource PageTitleStyle}" />
+                <TextBlock x:Name="CountText" Margin="10,0,0,0" VerticalAlignment="Center" Style="{StaticResource CaptionTextStyle}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="打开日志目录" Style="{StaticResource SecondaryButtonStyle}" Click="OpenFolder_Click" Margin="0,0,8,0" />
+                <Button x:Name="ClearButton" Content="清空审计" Style="{StaticResource DangerButtonStyle}" Click="Clear_Click" />
+            </StackPanel>
+        </Grid>
+
+        <ListBox x:Name="SectionTabs" Grid.Row="1" Margin="0,18,0,12" Background="Transparent" BorderThickness="0"
+                 ItemContainerStyle="{StaticResource LogSegmentStyle}" SelectionChanged="SectionTabs_SelectionChanged">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBoxItem Content="审计事件" />
+            <ListBoxItem Content="会话录制" />
+        </ListBox>
+
+        <Border x:Name="AuditView" Grid.Row="2" Background="{DynamicResource AppSurfaceBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
+                BorderThickness="0.5" CornerRadius="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="0.5" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="16,0" Height="38">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="170" />
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="140" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="时间" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" Text="类别" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="2" Text="级别" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="3" Text="事件" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="4" Text="主机" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                </Grid>
+                <Border Grid.Row="1" Style="{StaticResource HairlineStyle}" />
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="AuditList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="0,0,0,0.5" Padding="16,7">
+                                    <Grid ToolTip="{Binding Detail}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="170" />
+                                            <ColumnDefinition Width="90" />
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="140" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding TimeLabel}" FontSize="12" FontFamily="Cascadia Mono, Consolas"
+                                                   VerticalAlignment="Center" Foreground="{DynamicResource AppTextTertiaryBrush}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding CategoryLabel}" FontSize="12" VerticalAlignment="Center"
+                                                   Foreground="{DynamicResource AppTextSecondaryBrush}" />
+                                        <TextBlock Grid.Column="2" Text="{Binding LevelLabel}" FontSize="12" VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="{DynamicResource AppTextSecondaryBrush}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Level}" Value="Warning">
+                                                            <Setter Property="Foreground" Value="{DynamicResource AppWarningBrush}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Level}" Value="Error">
+                                                            <Setter Property="Foreground" Value="{DynamicResource AppDangerBrush}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <TextBlock Grid.Column="3" Text="{Binding Message}" FontSize="13" VerticalAlignment="Center"
+                                                   TextTrimming="CharacterEllipsis" Margin="0,0,12,0" />
+                                        <TextBlock Grid.Column="4" Text="{Binding HostLabel}" FontSize="12" VerticalAlignment="Center"
+                                                   Foreground="{DynamicResource AppTextSecondaryBrush}" TextTrimming="CharacterEllipsis" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+                <TextBlock x:Name="EmptyAuditText" Grid.Row="2" Text="还没有审计事件" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Style="{StaticResource SecondaryTextStyle}" Visibility="Collapsed" />
+            </Grid>
+        </Border>
+
+        <Border x:Name="RecordingsView" Grid.Row="2" Background="{DynamicResource AppSurfaceBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
+                BorderThickness="0.5" CornerRadius="10" Visibility="Collapsed">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="0.5" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="16,0" Height="38">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="160" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="文件" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" Text="大小" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="2" Text="保存时间" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="3" Text="" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                </Grid>
+                <Border Grid.Row="1" Style="{StaticResource HairlineStyle}" />
+                <ListBox x:Name="RecordingList" Grid.Row="2" Background="Transparent" BorderThickness="0" SelectionChanged="RecordingList_SelectionChanged">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="16,8" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border x:Name="Border" Background="Transparent" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource AppSurfaceHoverBrush}" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource AppSelectedBrush}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="160" />
+                                    <ColumnDefinition Width="150" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Name}" FontSize="12" FontFamily="Cascadia Mono, Consolas" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Grid.Column="1" Text="{Binding SizeLabel}" FontSize="12" VerticalAlignment="Center"
+                                           Foreground="{DynamicResource AppTextSecondaryBrush}" />
+                                <TextBlock Grid.Column="2" Text="{Binding ModifiedLabel}" FontSize="12" VerticalAlignment="Center"
+                                           Foreground="{DynamicResource AppTextTertiaryBrush}" />
+                                <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Content="打开" Style="{StaticResource SubtleButtonStyle}" Padding="8,2" FontSize="12"
+                                            Tag="{Binding}" Click="OpenRecording_Click" />
+                                    <Button Content="删除" Style="{StaticResource SubtleButtonStyle}" Padding="8,2" FontSize="12"
+                                            Foreground="{DynamicResource AppDangerBrush}" Tag="{Binding}" Click="DeleteRecording_Click" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock x:Name="EmptyRecordingsText" Grid.Row="2" Text="还没有会话录制" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Style="{StaticResource SecondaryTextStyle}" Visibility="Collapsed" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

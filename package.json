@@ -20,7 +20,10 @@
     "test:ui": "node scripts/run-ui-e2e.mjs",
     "test:all": "pnpm test:backend && pnpm test:ui",
     "mock-ssh": "tsx tests/fixtures/mock-ssh-server.ts",
-    "mock-lab": "tsx scripts/mock-lab.ts"
+    "mock-lab": "tsx scripts/mock-lab.ts",
+    "build:native": "dotnet build native/FluentSSH/FluentSSH.csproj -c Release",
+    "publish:native": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/native-publish.ps1",
+    "test:native": "dotnet run --project native/FluentSSH.Smoke/FluentSSH.Smoke.csproj"
   },
   "dependencies": {
     "@fluentui/react-components": "^9.68.0",

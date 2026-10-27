@@ -1,0 +1,219 @@
+<UserControl x:Class="FluentSSH.Features.SecurityPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{DynamicResource AppBackgroundBrush}">
+    <UserControl.Resources>
+        <Style x:Key="SegmentItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="14,6" />
+            <Setter Property="Margin" Value="0,0,2,0" />
+            <Setter Property="Foreground" Value="{DynamicResource AppTextSecondaryBrush}" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Border" Background="Transparent" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource AppSurfaceHoverBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource AppSelectedBrush}" />
+                                <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="28,24,28,24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="密钥与信任" Style="{StaticResource PageTitleStyle}" />
+                <TextBlock x:Name="CountText" Margin="10,0,0,0" VerticalAlignment="Center" Style="{StaticResource CaptionTextStyle}" />
+            </StackPanel>
+            <TextBlock x:Name="StatusText" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource CaptionTextStyle}" />
+        </Grid>
+
+        <ListBox x:Name="SectionTabs" Grid.Row="1" Margin="0,18,0,12" Background="Transparent" BorderThickness="0"
+                 ItemContainerStyle="{StaticResource SegmentItemStyle}" SelectionChanged="SectionTabs_SelectionChanged">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBoxItem Content="密钥" />
+            <ListBoxItem Content="Known Hosts" />
+        </ListBox>
+
+        <Grid x:Name="KeysView" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                <Button Content="导入私钥" Style="{StaticResource SecondaryButtonStyle}" Click="ImportKey_Click" Margin="0,0,8,0" />
+                <Button Content="生成 RSA 密钥" Style="{StaticResource SecondaryButtonStyle}" Click="GenerateKey_Click" Margin="0,0,8,0" />
+                <Button x:Name="CopyKeyButton" Content="复制公钥" Style="{StaticResource SecondaryButtonStyle}" Click="CopyKey_Click" Margin="0,0,8,0" IsEnabled="False" />
+                <Button x:Name="DeleteKeyButton" Content="删除" Style="{StaticResource DangerButtonStyle}" Click="DeleteKey_Click" IsEnabled="False" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Background="{DynamicResource AppSurfaceBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
+                    BorderThickness="0.5" CornerRadius="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="0.5" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="16,0" Height="38">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="260" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="名称" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="算法" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="指纹" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="3" Text="私钥路径" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Border Grid.Row="1" Style="{StaticResource HairlineStyle}" />
+                    <ListBox x:Name="KeyList" Grid.Row="2" Background="Transparent" BorderThickness="0" SelectionChanged="KeyList_SelectionChanged">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Padding" Value="16,9" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border x:Name="Border" Background="Transparent" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource AppSurfaceHoverBrush}" />
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource AppSelectedBrush}" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="220" />
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="260" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="Medium" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Algorithm}" FontSize="12" VerticalAlignment="Center"
+                                               Foreground="{DynamicResource AppTextSecondaryBrush}" />
+                                    <TextBlock Grid.Column="2" Text="{Binding Fingerprint}" FontSize="12" FontFamily="Cascadia Mono, Consolas"
+                                               VerticalAlignment="Center" Foreground="{DynamicResource AppTextTertiaryBrush}" TextTrimming="CharacterEllipsis" Margin="0,0,12,0" />
+                                    <TextBlock Grid.Column="3" Text="{Binding PrivateKeyPath}" FontSize="12" FontFamily="Cascadia Mono, Consolas"
+                                               VerticalAlignment="Center" Foreground="{DynamicResource AppTextTertiaryBrush}" TextTrimming="CharacterEllipsis" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <TextBlock x:Name="EmptyKeysText" Grid.Row="2" Text="还没有导入密钥" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Style="{StaticResource SecondaryTextStyle}" Visibility="Collapsed" />
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Grid x:Name="KnownHostsView" Grid.Row="2" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                <Button x:Name="DeleteKnownHostButton" Content="移除此主机" Style="{StaticResource DangerButtonStyle}" Click="DeleteKnownHost_Click" IsEnabled="False" />
+            </StackPanel>
+            <Border Grid.Row="1" Background="{DynamicResource AppSurfaceBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
+                    BorderThickness="0.5" CornerRadius="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="0.5" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="16,0" Height="38">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="240" />
+                            <ColumnDefinition Width="140" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="160" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="主机" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="密钥类型" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="指纹" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="3" Text="首次信任" Style="{StaticResource CaptionTextStyle}" VerticalAlignment="Center" />
+                    </Grid>
+                    <Border Grid.Row="1" Style="{StaticResource HairlineStyle}" />
+                    <ListBox x:Name="KnownHostList" Grid.Row="2" Background="Transparent" BorderThickness="0" SelectionChanged="KnownHostList_SelectionChanged">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Padding" Value="16,9" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border x:Name="Border" Background="Transparent" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource AppSurfaceHoverBrush}" />
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource AppSelectedBrush}" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="240" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="160" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding DisplayAddress}" FontSize="13" FontFamily="Cascadia Mono, Consolas" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="{Binding KeyType}" FontSize="12" VerticalAlignment="Center"
+                                               Foreground="{DynamicResource AppTextSecondaryBrush}" />
+                                    <TextBlock Grid.Column="2" Text="{Binding Fingerprint}" FontSize="12" FontFamily="Cascadia Mono, Consolas"
+                                               VerticalAlignment="Center" Foreground="{DynamicResource AppTextTertiaryBrush}" TextTrimming="CharacterEllipsis" Margin="0,0,12,0" />
+                                    <TextBlock Grid.Column="3" Text="{Binding AddedLabel}" FontSize="12" VerticalAlignment="Center"
+                                               Foreground="{DynamicResource AppTextTertiaryBrush}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <TextBlock x:Name="EmptyKnownHostsText" Grid.Row="2" Text="还没有信任的主机" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Style="{StaticResource SecondaryTextStyle}" Visibility="Collapsed" />
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

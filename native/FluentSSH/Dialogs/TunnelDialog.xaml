@@ -1,0 +1,106 @@
+<Window x:Class="FluentSSH.Dialogs.TunnelDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="620"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource AppBackgroundBrush}"
+        FontFamily="Segoe UI Variable Text, Segoe UI, Microsoft YaHei UI">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="DialogTitle" Text="新建隧道" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" />
+
+        <Grid Grid.Row="1" Margin="0,18,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="14" />
+                <ColumnDefinition Width="200" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="名称" Style="{StaticResource FormLabelStyle}" />
+                <TextBox x:Name="NameBox" Style="{StaticResource InputTextBoxStyle}" />
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+                <TextBlock Text="关联主机" Style="{StaticResource FormLabelStyle}" />
+                <ComboBox x:Name="HostBox" Style="{StaticResource InputComboBoxStyle}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" FontSize="13" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="14" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="转发类型" Style="{StaticResource FormLabelStyle}" />
+                <ComboBox x:Name="KindBox" Style="{StaticResource InputComboBoxStyle}" SelectionChanged="KindBox_SelectionChanged">
+                    <ComboBoxItem Content="本地转发" Tag="Local" />
+                    <ComboBoxItem Content="远程转发" Tag="Remote" />
+                    <ComboBoxItem Content="SOCKS5" Tag="Dynamic" />
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Grid.Column="2" VerticalAlignment="Bottom">
+                <CheckBox x:Name="AutoStartCheck" Content="应用启动时自动开启" />
+            </StackPanel>
+        </Grid>
+
+        <TextBlock Grid.Row="3" Text="监听地址" Margin="0,18,0,8" Style="{StaticResource SectionTitleStyle}" />
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="14" />
+                <ColumnDefinition Width="120" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="地址" Style="{StaticResource FormLabelStyle}" />
+                <TextBox x:Name="BindHostBox" Style="{StaticResource InputTextBoxStyle}" />
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+                <TextBlock Text="端口" Style="{StaticResource FormLabelStyle}" />
+                <TextBox x:Name="BindPortBox" Style="{StaticResource InputTextBoxStyle}" />
+            </StackPanel>
+        </Grid>
+
+        <StackPanel x:Name="TargetPanel" Grid.Row="5">
+            <TextBlock Text="目标地址" Margin="0,18,0,8" Style="{StaticResource SectionTitleStyle}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="120" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="地址" Style="{StaticResource FormLabelStyle}" />
+                    <TextBox x:Name="TargetHostBox" Style="{StaticResource InputTextBoxStyle}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="端口" Style="{StaticResource FormLabelStyle}" />
+                    <TextBox x:Name="TargetPortBox" Style="{StaticResource InputTextBoxStyle}" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Grid.Row="6" Margin="0,22,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="取消" Style="{StaticResource SecondaryButtonStyle}" Width="80" Margin="0,0,8,0" Click="Cancel_Click" />
+            <Button Content="保存" Style="{StaticResource PrimaryButtonStyle}" Width="88" Click="Save_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

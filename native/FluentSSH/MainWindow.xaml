@@ -1,0 +1,126 @@
+<ui:FluentWindow x:Class="FluentSSH.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 Title="FluentSSH"
+                 Icon="Assets/app.ico"
+                 Width="1500"
+                 Height="950"
+                 MinWidth="1080"
+                 MinHeight="680"
+                 WindowStartupLocation="CenterScreen"
+                 Background="{DynamicResource AppBackgroundBrush}"
+                 ExtendsContentIntoTitleBar="True"
+                 WindowBackdropType="Mica"
+                 FontFamily="Segoe UI Variable Text, Segoe UI, Microsoft YaHei UI"
+                 TextOptions.TextFormattingMode="Display"
+                 PreviewKeyDown="Window_PreviewKeyDown">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar Grid.Row="0" Title="FluentSSH" />
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="232" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    Background="{DynamicResource AppBackgroundAltBrush}"
+                    BorderBrush="{DynamicResource AppBorderBrush}"
+                    BorderThickness="0,0,0.5,0">
+                <Grid Margin="12,16,12,14">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Button Grid.Row="0" Style="{StaticResource PrimaryButtonStyle}" Margin="2,0,2,18"
+                            HorizontalContentAlignment="Center" Click="NewHost_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe Fluent Icons" FontSize="13" Text="&#xE710;" VerticalAlignment="Center" />
+                            <TextBlock Text="新建主机" Margin="7,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Margin="9,0,0,5" Text="工作区" Style="{StaticResource CaptionTextStyle}" />
+                        <ListBox x:Name="NavList" Style="{StaticResource NavListBoxStyle}" SelectionChanged="NavList_SelectionChanged">
+                            <ListBoxItem Tag="hosts">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe Fluent Icons" FontSize="15" Width="23" VerticalAlignment="Center" Text="&#xE80F;" />
+                                    <TextBlock Text="主机" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </ListBoxItem>
+                            <ListBoxItem Tag="terminal">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe Fluent Icons" FontSize="15" Width="23" VerticalAlignment="Center" Text="&#xE756;" />
+                                    <TextBlock Text="终端" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </ListBoxItem>
+                            <ListBoxItem Tag="files">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe Fluent Icons" FontSize="15" Width="23" VerticalAlignment="Center" Text="&#xE8B7;" />
+                                    <TextBlock Text="文件" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </ListBoxItem>
+                        </ListBox>
+
+                        <TextBlock Margin="9,16,0,5" Text="工具" Style="{StaticResource CaptionTextStyle}" />
+                        <ListBox x:Name="ToolNavList" Style="{StaticResource NavListBoxStyle}" SelectionChanged="ToolNavList_SelectionChanged">
+                            <ListBoxItem Tag="tunnels">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe Fluent Icons" FontSize="15" Width="23" VerticalAlignment="Center" Text="&#xE968;" />
+                                    <TextBlock Text="隧道" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </ListBoxItem>
+                            <ListBoxItem Tag="commands">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe Fluent Icons" FontSize="15" Width="23" VerticalAlignment="Center" Text="&#xE943;" />
+                                    <TextBlock Text="命令与片段" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </ListBoxItem>
+                            <ListBoxItem Tag="security">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe Fluent Icons" FontSize="15" Width="23" VerticalAlignment="Center" Text="&#xE72E;" />
+                                    <TextBlock Text="密钥与信任" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </ListBoxItem>
+                            <ListBoxItem Tag="logs">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe Fluent Icons" FontSize="15" Width="23" VerticalAlignment="Center" Text="&#xE8A5;" />
+                                    <TextBlock Text="日志" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </ListBoxItem>
+                        </ListBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Margin="0,12,0,0">
+                        <Border Style="{StaticResource HairlineStyle}" Margin="7,0,7,8" />
+                        <Button x:Name="ThemeButton" Style="{StaticResource SubtleButtonStyle}" HorizontalContentAlignment="Left"
+                                Padding="9,7" Click="ToggleTheme_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="ThemeGlyph" FontFamily="Segoe Fluent Icons" FontSize="15" Width="23" VerticalAlignment="Center" Text="&#xE706;" />
+                                <TextBlock x:Name="ThemeLabel" Text="深色模式" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource SubtleButtonStyle}" HorizontalContentAlignment="Left" Padding="9,7" Click="Settings_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe Fluent Icons" FontSize="15" Width="23" VerticalAlignment="Center" Text="&#xE713;" />
+                                <TextBlock Text="设置" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <ContentControl x:Name="ContentHost" Grid.Column="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+        </Grid>
+    </Grid>
+</ui:FluentWindow>

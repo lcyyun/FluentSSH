@@ -1,0 +1,37 @@
+<Window x:Class="FluentSSH.Dialogs.SnippetDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="520"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource AppBackgroundBrush}"
+        FontFamily="Segoe UI Variable Text, Segoe UI, Microsoft YaHei UI">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="DialogTitle" Text="新建片段" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" />
+        <StackPanel Grid.Row="1" Margin="0,18,0,0">
+            <TextBlock Text="名称" Style="{StaticResource FormLabelStyle}" />
+            <TextBox x:Name="NameBox" Style="{StaticResource InputTextBoxStyle}" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Margin="0,12,0,0">
+            <TextBlock Text="命令" Style="{StaticResource FormLabelStyle}" />
+            <TextBox x:Name="CommandBox" Style="{StaticResource InputTextBoxStyle}" FontFamily="Cascadia Mono, Consolas"
+                     AcceptsReturn="True" TextWrapping="Wrap" Height="96" VerticalContentAlignment="Top" />
+        </StackPanel>
+        <StackPanel Grid.Row="3" Margin="0,12,0,0">
+            <TextBlock Text="说明" Style="{StaticResource FormLabelStyle}" />
+            <TextBox x:Name="DescriptionBox" Style="{StaticResource InputTextBoxStyle}" />
+        </StackPanel>
+        <StackPanel Grid.Row="4" Margin="0,20,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="取消" Style="{StaticResource SecondaryButtonStyle}" Width="80" Margin="0,0,8,0" Click="Cancel_Click" />
+            <Button Content="保存" Style="{StaticResource PrimaryButtonStyle}" Width="88" Click="Save_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

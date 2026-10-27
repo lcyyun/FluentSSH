@@ -7,3 +7,8 @@ data/
 screenshots/
 tests/.artifacts/
 .env
+
+# Native WPF build artifacts
+native/**/bin/
+native/**/obj/
+*.user

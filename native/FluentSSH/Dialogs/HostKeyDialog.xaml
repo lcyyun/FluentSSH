@@ -1,0 +1,54 @@
+﻿<Window x:Class="FluentSSH.Dialogs.HostKeyDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="验证主机密钥"
+        Width="500"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource AppSurfaceBrush}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBlock FontFamily="Segoe Fluent Icons" FontSize="20" Foreground="{DynamicResource AppAccentBrush}" Text="&#xE72E;" />
+            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource AppTextBrush}" Text="验证主机密钥" />
+        </StackPanel>
+
+        <Border Grid.Row="1" Margin="0,16,0,0" Padding="12" CornerRadius="8"
+                Background="{DynamicResource AppWarningSoftBrush}" BorderBrush="{DynamicResource AppWarningBrush}" BorderThickness="0.5">
+            <TextBlock x:Name="WarningText" TextWrapping="Wrap" Foreground="{DynamicResource AppTextBrush}" FontSize="13" />
+        </Border>
+
+        <Grid Grid.Row="2" Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="主机" Foreground="{DynamicResource AppTextSecondaryBrush}" Margin="0,0,0,8" />
+            <TextBlock x:Name="HostText" Grid.Row="0" Grid.Column="1" Foreground="{DynamicResource AppTextBrush}" FontFamily="Cascadia Mono, Consolas" Margin="0,0,0,8" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="密钥类型" Foreground="{DynamicResource AppTextSecondaryBrush}" Margin="0,0,0,8" />
+            <TextBlock x:Name="KeyTypeText" Grid.Row="1" Grid.Column="1" Foreground="{DynamicResource AppTextBrush}" FontFamily="Cascadia Mono, Consolas" Margin="0,0,0,8" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="SHA256 指纹" Foreground="{DynamicResource AppTextSecondaryBrush}" Margin="0,0,0,8" />
+            <TextBlock x:Name="FingerprintText" Grid.Row="2" Grid.Column="1" Foreground="{DynamicResource AppTextBrush}" FontFamily="Cascadia Mono, Consolas" TextWrapping="Wrap" Margin="0,0,0,8" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="已知指纹" Foreground="{DynamicResource AppTextSecondaryBrush}" />
+            <TextBlock x:Name="ExpectedText" Grid.Row="3" Grid.Column="1" Foreground="{DynamicResource AppDangerBrush}" FontFamily="Cascadia Mono, Consolas" TextWrapping="Wrap" />
+        </Grid>
+
+        <StackPanel Grid.Row="3" Margin="0,22,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="取消" Width="92" Height="32" Margin="0,0,8,0" Click="Cancel_Click" />
+            <Button Content="信任并继续" Width="118" Height="32" Style="{DynamicResource PrimaryButtonStyle}" Click="Trust_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

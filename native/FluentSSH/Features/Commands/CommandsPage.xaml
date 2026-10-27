@@ -1,0 +1,186 @@
+<UserControl x:Class="FluentSSH.Features.CommandsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{DynamicResource AppBackgroundBrush}">
+    <Grid Margin="28,24,28,24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="命令" Style="{StaticResource PageTitleStyle}" />
+                <TextBlock x:Name="CommandCountText" Margin="10,0,0,0" VerticalAlignment="Center" Style="{StaticResource CaptionTextStyle}" />
+            </StackPanel>
+            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource CaptionTextStyle}"
+                       Text="Ctrl+Enter 执行" />
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0,18,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="{DynamicResource AppSurfaceBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
+                    BorderThickness="0.5" CornerRadius="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="0.5" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="14,12,10,8">
+                        <TextBlock Text="片段" Style="{StaticResource SectionTitleStyle}" VerticalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="添加" Style="{StaticResource SubtleButtonStyle}" Padding="6,3" FontSize="12" Click="AddSnippet_Click" />
+                            <Button Content="删除" Style="{StaticResource SubtleButtonStyle}" Padding="6,3" FontSize="12"
+                                    Foreground="{DynamicResource AppDangerBrush}" Click="DeleteSnippet_Click" />
+                        </StackPanel>
+                    </Grid>
+                    <ListBox x:Name="SnippetList" Grid.Row="1" Background="Transparent" BorderThickness="0" MaxHeight="220"
+                             MouseDoubleClick="SnippetList_MouseDoubleClick">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Padding" Value="14,8" />
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border x:Name="Border" Background="Transparent" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource AppSurfaceHoverBrush}" />
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource AppSelectedBrush}" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding Command}" FontSize="12" FontFamily="Cascadia Mono, Consolas" Margin="0,2,0,0"
+                                               Foreground="{DynamicResource AppTextTertiaryBrush}" TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Border Grid.Row="3" Style="{StaticResource HairlineStyle}" />
+                    <Grid Grid.Row="4" Margin="14,10,10,8">
+                        <TextBlock Text="历史" Style="{StaticResource SectionTitleStyle}" VerticalAlignment="Center" />
+                        <Button Content="清空" Style="{StaticResource SubtleButtonStyle}" Padding="6,3" FontSize="12"
+                                HorizontalAlignment="Right" Click="ClearHistory_Click" />
+                    </Grid>
+                    <ListBox x:Name="HistoryList" Grid.Row="5" Background="Transparent" BorderThickness="0"
+                             MouseDoubleClick="HistoryList_MouseDoubleClick">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Padding" Value="14,7" />
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border x:Name="Border" Background="Transparent" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource AppSurfaceHoverBrush}" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Command}" FontSize="12" FontFamily="Cascadia Mono, Consolas" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding TimeLabel}" FontSize="12" Foreground="{DynamicResource AppTextTertiaryBrush}" Margin="0,2,0,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="280" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="HostPicker" Style="{StaticResource InputComboBoxStyle}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" FontSize="13" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button x:Name="RunButton" Grid.Column="2" Style="{StaticResource PrimaryButtonStyle}" Click="Run_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe Fluent Icons" FontSize="13" Text="&#xE768;" VerticalAlignment="Center" />
+                            <TextBlock Text="执行" Margin="6,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+
+                <Border Grid.Row="1" Margin="0,12,0,0" Background="{DynamicResource AppSurfaceBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
+                        BorderThickness="0.5" CornerRadius="8" Padding="12">
+                    <Grid>
+                        <TextBox x:Name="CommandBox" Background="Transparent" BorderThickness="0" FontFamily="Cascadia Mono, Consolas"
+                                 FontSize="13" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="86" MaxHeight="150"
+                                 VerticalScrollBarVisibility="Auto" Padding="0" PreviewKeyDown="CommandBox_PreviewKeyDown" />
+                        <TextBlock x:Name="CommandHint" Text="输入命令" IsHitTestVisible="False" Margin="2,1,0,0"
+                                   Style="{StaticResource CaptionTextStyle}" Visibility="Collapsed" />
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="2" Margin="0,12,0,0" Background="{DynamicResource AppTerminalBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
+                        BorderThickness="0.5" CornerRadius="8">
+                    <Grid>
+                        <TextBox x:Name="OutputBox" Background="Transparent" BorderThickness="0" IsReadOnly="True"
+                                 FontFamily="Cascadia Mono, Consolas" FontSize="12" Foreground="{DynamicResource AppTerminalTextBrush}"
+                                 TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Padding="14" />
+                        <TextBlock x:Name="OutputPlaceholder" Text="输出会显示在这里" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                   Margin="14" IsHitTestVisible="False" FontSize="12" Foreground="#7D8A97" />
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Row="3" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock x:Name="RunStatusText" Style="{StaticResource CaptionTextStyle}" />
+                        <TextBlock x:Name="ExitCodeText" Margin="12,0,0,0" Style="{StaticResource CaptionTextStyle}" />
+                        <TextBlock x:Name="DurationText" Margin="12,0,0,0" Style="{StaticResource CaptionTextStyle}" />
+                    </StackPanel>
+                    <Button Grid.Column="1" Content="清空输出" Style="{StaticResource SubtleButtonStyle}" Click="ClearOutput_Click" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

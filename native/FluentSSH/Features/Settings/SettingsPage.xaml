@@ -1,0 +1,119 @@
+<UserControl x:Class="FluentSSH.Features.SettingsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{DynamicResource AppBackgroundBrush}">
+    <Grid Margin="28,24,28,24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="设置" Style="{StaticResource PageTitleStyle}" />
+                <TextBlock x:Name="StatusText" Margin="12,0,0,0" VerticalAlignment="Center" Style="{StaticResource CaptionTextStyle}" />
+            </StackPanel>
+            <Button HorizontalAlignment="Right" Content="保存" Style="{StaticResource PrimaryButtonStyle}" Width="88" Click="Save_Click" />
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" Margin="0,18,0,0" VerticalScrollBarVisibility="Auto">
+            <StackPanel MaxWidth="820" HorizontalAlignment="Center">
+                <Border Background="{DynamicResource AppSurfaceBrush}" BorderBrush="{DynamicResource AppBorderBrush}"
+                        BorderThickness="0.5" CornerRadius="10" Padding="20">
+                    <StackPanel>
+                        <TextBlock Text="外观" Style="{StaticResource SectionTitleStyle}" />
+                        <Grid Margin="0,14,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="260" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="220" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="主题" Style="{StaticResource FormLabelStyle}" />
+                                <ComboBox x:Name="ThemeBox" Style="{StaticResource InputComboBoxStyle}">
+                                    <ComboBoxItem Content="浅色" Tag="Light" />
+                                    <ComboBoxItem Content="深色" Tag="Dark" />
+                                    <ComboBoxItem Content="跟随系统" Tag="System" />
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="终端字号" Style="{StaticResource FormLabelStyle}" />
+                                <TextBox x:Name="FontSizeBox" Style="{StaticResource InputTextBoxStyle}" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="220" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="终端字体" Style="{StaticResource FormLabelStyle}" />
+                                <TextBox x:Name="FontFamilyBox" Style="{StaticResource InputTextBoxStyle}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Border Style="{StaticResource HairlineStyle}" Margin="0,20,0,18" />
+                        <TextBlock Text="连接" Style="{StaticResource SectionTitleStyle}" />
+                        <Grid Margin="0,14,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="260" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="220" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="默认用户名" Style="{StaticResource FormLabelStyle}" />
+                                <TextBox x:Name="UsernameBox" Style="{StaticResource InputTextBoxStyle}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="默认端口" Style="{StaticResource FormLabelStyle}" />
+                                <TextBox x:Name="PortBox" Style="{StaticResource InputTextBoxStyle}" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="260" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="220" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="保活间隔（秒）" Style="{StaticResource FormLabelStyle}" />
+                                <TextBox x:Name="KeepAliveBox" Style="{StaticResource InputTextBoxStyle}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Border Style="{StaticResource HairlineStyle}" Margin="0,20,0,18" />
+                        <TextBlock Text="终端与安全" Style="{StaticResource SectionTitleStyle}" />
+                        <StackPanel Margin="0,14,0,0">
+                            <CheckBox x:Name="RecordSessionsCheck" Content="记录终端会话到本地日志" Margin="0,0,0,10" />
+                            <CheckBox x:Name="ConfirmDeleteCheck" Content="删除主机、密钥或文件前确认" Margin="0,0,0,10" />
+                            <CheckBox x:Name="StrictHostKeysCheck" Content="严格校验首次连接的主机密钥" />
+                        </StackPanel>
+
+                        <Border Style="{StaticResource HairlineStyle}" Margin="0,20,0,18" />
+                        <TextBlock Text="数据" Style="{StaticResource SectionTitleStyle}" />
+                        <Grid Margin="0,14,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="DataPathText" VerticalAlignment="Center" FontSize="12" FontFamily="Cascadia Mono, Consolas"
+                                       Foreground="{DynamicResource AppTextSecondaryBrush}" TextTrimming="CharacterEllipsis" />
+                            <Button Grid.Column="1" Content="打开数据目录" Style="{StaticResource SubtleButtonStyle}" Margin="8,0,0,0" Click="OpenData_Click" />
+                            <Button Grid.Column="2" Content="打开日志目录" Style="{StaticResource SubtleButtonStyle}" Margin="4,0,0,0" Click="OpenLogs_Click" />
+                        </Grid>
+
+                        <Border Style="{StaticResource HairlineStyle}" Margin="0,20,0,18" />
+                        <TextBlock Text="关于" Style="{StaticResource SectionTitleStyle}" />
+                        <StackPanel Margin="0,12,0,0">
+                            <TextBlock Text="FluentSSH 1.0" Style="{StaticResource BodyTextStyle}" />
+                            <TextBlock Text=".NET 10 + WPF + SSH.NET + XtermSharp" Margin="0,4,0,0" Style="{StaticResource CaptionTextStyle}" />
+                            <TextBlock Text="凭据使用 Windows DPAPI 加密，仅保存在当前 Windows 用户下。" Margin="0,4,0,0" Style="{StaticResource CaptionTextStyle}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
